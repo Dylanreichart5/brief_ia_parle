@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<head>
+  <title>OpenAI Quickstart</title>
+  <link
+    rel="shortcut icon"
+    href="{{ url_for('static', filename='chatbot.jpg') }}"
+  />
+  <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}" />
+</head>
+
+<body>
+  <img src="{{ url_for('static', filename='chatbot.jpg') }}" class="icon" />
+  <form action="/" method="post">
+    <button name="microphone" value="on">Cliquez et posez votre question</button>
+  </form>
+  {% if conversation_history %}
+  <h2>Conversation history:</h2>
+  {% for item in conversation_history %}
+      <div class="question-section">
+          <p><strong>You:</strong> {{ item['question'] }}</p>
+      </div>
+      <div class="answer-section">
+          <p><strong>Bot:</strong> {{ item['answer'] }}</p>
+      </div>
+  {% endfor %}
+  <form method="POST" action="{{ url_for('reset') }}">
+      <button type="submit">Reset</button>
+  </form>
+{% endif %}
+
+</body>
+</body>
