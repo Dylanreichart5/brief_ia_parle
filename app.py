@@ -5,11 +5,12 @@ from flask import Flask, redirect, render_template, request, url_for, session
 
 app = Flask(__name__)
 conversation_history = []
-app.secret_key = "your-secret-key-here"
 openai.api_key = os.getenv("OPENAI_API_KEY")
 speech_config = speechsdk.SpeechConfig(subscription=os.environ.get('SPEECH_KEY'), region=os.environ.get('SPEECH_REGION'))
 speech_config.speech_recognition_language="fr-FR"
 speech_config.speech_synthesis_language = "fr-FR"
+# speech_config.endpoint_id = "592dd1b4-a3a6-4618-b604-598d49fa28b7"
+reco = speechsdk.SpeechRecognizer(speech_config=speech_config)
 
 @app.route("/", methods=["GET", "POST"])
 def index():
@@ -19,7 +20,7 @@ def index():
         if request.form.get("microphone") == "on":
             return redirect(url_for("listen"))
 
-    conversation_history = session["conversation_history"]
+    conversation_history = [""]
 
     return render_template("index.html", conversation_history=conversation_history)
 
